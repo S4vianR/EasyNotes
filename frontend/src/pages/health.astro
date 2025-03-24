@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import HealthComponent from "../components/svelte/HealthComponent.svelte";
+---
+
+<Layout title="EasyNotes | Health Check">
+  <Nav />
+  <main class="px-2 py-1">
+    <HealthComponent client:only="svelte" />
+  </main>
+</Layout>
