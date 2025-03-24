@@ -16,13 +16,12 @@
   $: notesCallback();
 </script>
 
-<section class="w-full border-t">
-  <h1>Notes</h1>
-  <p>Here are some notes:</p>
-  <ul class="list-none flex flex-row justify-start items-center gap-2">
+<section class="px-2 py-4">
+  <h1 class="text-2xl font-bold text-center">Notes</h1>
+  <ul class="list-none grid grid-cols-4 gap-4">
     <!-- Loop through the notes and display them -->
     {#each notes as note}
-      <li class="min-w-fit w-3/12 border">
+      <li class="p-1 min-w-fit w-full border-2 rounded-lg">
         <p class="text-lg font-bold">{note.title}</p>
         <p class="text-sm text-gray-400">{note.content}</p>
       </li>

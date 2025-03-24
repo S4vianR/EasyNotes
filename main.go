@@ -12,10 +12,16 @@ type Note struct {
 	Content string `json:"content"`
 }
 
+// Set CORS headers
+func setCORSHeaders(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")                   // Allow all origins
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")       // Allow Content-Type header
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, UPDATE, DELETE") // Allow methods
+}
+
 func healthHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")             // Agregar encabezado CORS
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type") // Permitir encabezado Content-Type
+	setCORSHeaders(w)
 	response := map[string]string{"status": "The server is running"}
 	json.NewEncoder(w).Encode(response)
 }
@@ -34,8 +40,7 @@ func getNotes() []Note {
 
 func getNoteHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")             // Agregar encabezado CORS
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type") // Permitir encabezado Content-Type
+	setCORSHeaders(w)
 	notes := getNotes()
 	json.NewEncoder(w).Encode(notes)
 }
@@ -52,14 +57,19 @@ func saveNotes(notes []Note) {
 
 func createNoteHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")             // Agregar encabezado CORS
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type") // Permitir encabezado Content-Type
-	notes := getNotes()
+	setCORSHeaders(w)
+
+	// Handle preflight request
+	if r.Method == http.MethodOptions {
+		return
+	}
+
 	var note Note
 	json.NewDecoder(r.Body).Decode(&note)
 
-	// Validar que el título y el contenido no estén vacíos
+	// Validate that title and content are not empty
 	if note.Title != "" && note.Content != "" {
+		notes := getNotes()
 		notes = append(notes, note)
 		saveNotes(notes)
 		json.NewEncoder(w).Encode(notes)

@@ -7,7 +7,9 @@
       const text = await response.text();
       const data = JSON.parse(text);
       console.log(data);
-      return typeof data.status === 'object' ? JSON.stringify(data.status) : data.status;
+      return typeof data.status === "object"
+        ? JSON.stringify(data.status)
+        : data.status;
     } catch (error) {
       console.error("Error fetching health check:", error);
       return "Failed to fetch health check";
@@ -17,12 +19,9 @@
 
 <main>
   <h1>Health Check</h1>
-  <p>Checking the health of the server...</p>
   {#await healthCheck()}
-    <p>Checking...</p>
+    <p class="font-bold">Checking...</p>
   {:then status}
-    <p>Status: {status}</p>
-  {:catch error}
-    <p>Error: {error}</p>
+    <p><span class="font-bold">Status:</span> {status}</p>
   {/await}
 </main>

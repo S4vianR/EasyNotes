@@ -1,14 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
-import CreateNote from "../components/svelte/CreateNote.svelte";
 import Notes from "../components/svelte/Notes.svelte";
 ---
 
 <Layout title="EasyNotes | Home">
   <Nav />
-  <main class="px-2 py-1 flex flex-col gap-2">
-    <CreateNote client:only="svelte" />
+  <main class="flex flex-col gap-2">
     <Notes client:only="svelte" />
   </main>
 </Layout>

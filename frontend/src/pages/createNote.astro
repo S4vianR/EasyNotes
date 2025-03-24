@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import NoteForm from "../components/svelte/NoteForm.svelte";
+---
+
+<Layout title="EasyNotes | Home">
+  <Nav />
+  <main class="flex flex-col gap-2">
+    <NoteForm client:only="svelte" />
+  </main>
+</Layout>
